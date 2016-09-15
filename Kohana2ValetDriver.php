@@ -13,8 +13,8 @@ class Kohana2ValetDriver extends ValetDriver
      */
     public function serves($sitePath, $siteName, $uri)
     {
-        return file_exists($sitePath.'/index.php') &&
-            strpos(file_get_contents($sitePath.'/index.php'), '$kohana_') !== false;
+        exec('grep -q \$kohana '.$sitePath.'/index.php', $out, $status);
+        return $status === 0;
     }
 
     /**
