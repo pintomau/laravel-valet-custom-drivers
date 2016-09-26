@@ -46,8 +46,8 @@ class Kohana2ValetDriver extends ValetDriver
     {
         if ($uri !== '/') {
             $dynamicCandidates = [
-                $this->asActualFile($sitePath, $uri),
                 $this->asPhpIndexFileInDirectory($sitePath, $uri),
+                $this->asActualFile($sitePath, $uri),
                 $this->asHtmlIndexFileInDirectory($sitePath, $uri),
             ];
 
@@ -61,6 +61,7 @@ class Kohana2ValetDriver extends ValetDriver
             }
         }
 
+        // it's the Kohana front controller
         $_GET['kohana_uri'] = $uri;
         return $sitePath.'/index.php';
     }
@@ -109,6 +110,6 @@ class Kohana2ValetDriver extends ValetDriver
      */
     protected function isActualFile($path)
     {
-        return ! is_dir($path) && file_exists($path);
+        return !is_dir($path) && file_exists($path);
     }
 }
