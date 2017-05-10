@@ -45,6 +45,8 @@ class Kohana2ValetDriver extends ValetDriver
     public function frontControllerPath($sitePath, $siteName, $uri)
     {
         if ($uri !== '/') {
+            $this->forceTrailingSlash($sitePath, $uri);
+
             $dynamicCandidates = [
                 $this->asPhpIndexFileInDirectory($sitePath, $uri),
                 $this->asActualFile($sitePath, $uri),
@@ -111,5 +113,19 @@ class Kohana2ValetDriver extends ValetDriver
     protected function isActualFile($path)
     {
         return !is_dir($path) && file_exists($path);
+    }
+
+    /**
+     * Redirect to uri with trailing slash.
+     *
+     * @param  string $sitePath
+     * @param  string $uri
+     */
+    protected function forceTrailingSlash($sitePath, $uri)
+    {
+        if (substr($uri, -1) != '/' && is_dir($sitePath . $uri)) {
+            header('Location: ' . $uri . '/');
+            die;
+        }
     }
 }
